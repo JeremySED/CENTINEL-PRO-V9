@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SENTINEL PRO WEB — Videovigilancia Táctica AI</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot-live" id="dotLive"></span>
+      <h1>SENTINEL PRO <span class="badge">WEB AI</span></h1>
+    </div>
+
+    <div class="toolbar">
+      <button id="btnStartCam" class="btn btn-primary">Iniciar Cámara</button>
+      <button id="btnSwitchCam" class="btn btn-accent" disabled>Cambiar Cámara</button>
+      <label class="btn" for="inputVideo">Video CCTV (.mp4)</label>
+      <input type="file" id="inputVideo" accept="video/*" hidden />
+      <label class="btn" for="inputOnnx" title="Opcional: carga un YOLO exportado a .onnx para armas de fuego/cascos">Modelo Armas (.onnx)</label>
+      <input type="file" id="inputOnnx" accept=".onnx" hidden />
+      <button id="btnDvr" class="btn btn-dvr">● GRABAR DVR</button>
+      <button id="btnSnap" class="btn">Foto</button>
+      <button id="btnExportCsv" class="btn">Exportar CSV</button>
+    </div>
+
+    <div class="ai-status" id="lblAiStatus">Cargando motores IA...</div>
+  </header>
+
+  <main class="workspace">
+    <!-- VISOR PRINCIPAL -->
+    <section class="stage-panel">
+      <div class="canvas-wrap" id="canvasWrap">
+        <canvas id="mainCanvas" width="1280" height="720"></canvas>
+        <div class="overlay-hint" id="overlayHint">
+          <h2>SENTINEL PRO — Listo en Navegador (Mac / Windows)</h2>
+          <p>Pulsa <strong>Iniciar Cámara</strong> para usar tu webcam (interna o USB) o <strong>Video CCTV (.mp4)</strong> para analizar una grabación.</p>
+          <p class="small">100% local en tu navegador (WebGL/GPU). Ningún video sale de tu equipo.</p>
+        </div>
+      </div>
+      <div class="stage-footer">
+        <span id="lblClock">--:--:--</span>
+        <span id="lblHintZone">Clic Izquierdo en video: trazar Zona Restringida (3+ pts) | Clic Derecho: resetear zona</span>
+        <span id="lblCameraInfo">Fuente: Inactiva</span>
+      </div>
+    </section>
+
+    <!-- PANEL LATERAL TÁCTICO -->
+    <aside class="sidebar">
+      <!-- 1. Estado y Telemetría -->
+      <section class="card">
+        <h3>ESTADO TÁCTICO Y TELEMETRÍA</h3>
+        <div class="risk-row">
+          <span id="lblDefcon" class="defcon normal">NORMAL</span>
+          <div class="progress-wrap">
+            <div id="barRisk" class="progress-fill" style="width: 0%"></div>
+            <span id="lblRiskPct">0%</span>
+          </div>
+        </div>
+        <div class="metrics-grid">
+          <div><span>UI / IA:</span> <strong id="lblPerf">0 FPS | 0 ms</strong></div>
+          <div><span>Personas:</span> <strong id="cntPersonas">0</strong></div>
+          <div><span>Autos:</span> <strong id="cntAutos">0</strong></div>
+          <div><span>Motos:</span> <strong id="cntMotos">0</strong></div>
+          <div><span>Armas Conf.:</span> <strong id="cntArmas" class="danger-txt">0</strong></div>
+          <div><span>En Zona:</span> <strong id="cntZona">0</strong></div>
+          <div><span>Flujo IN/OUT:</span> <strong id="cntFlujo">+0 / -0</strong></div>
+          <div><span>DVR Clips:</span> <strong id="cntClips">0</strong></div>
+        </div>
+      </section>
+
+      <!-- 2. Zoom PiP -->
+      <section class="card">
+        <div class="card-head">
+          <h3>ZOOM TÁCTICO (PiP)</h3>
+          <span id="lblPipTitle" class="muted">Sin objetivo</span>
+        </div>
+        <canvas id="pipCanvas" width="320" height="160"></canvas>
+      </section>
+
+      <!-- 3. Controles y Calibración -->
+      <section class="card">
+        <h3>CONTROLES EN VIVO</h3>
+        <div class="checks-grid">
+          <label><input type="checkbox" id="chkIa" checked /> Motor IA</label>
+          <label><input type="checkbox" id="chkPose" checked /> Pose Biomecánica</label>
+          <label><input type="checkbox" id="chkEspejo" checked /> Espejo Cámara</label>
+          <label><input type="checkbox" id="chkZona" checked /> Zona Restringida</label>
+          <label><input type="checkbox" id="chkLinea" checked /> Línea Conteo</label>
+          <label><input type="checkbox" id="chkHeat" /> Heatmap</label>
+          <label><input type="checkbox" id="chkRadar" checked /> Radar 2D</label>
+          <label><input type="checkbox" id="chkSirena" checked /> Sirena Sonora</label>
+        </div>
+
+        <div class="select-row">
+          <label for="selOptico">Modo Óptico:</label>
+          <select id="selOptico">
+            <option value="0">Normal (Realce Color)</option>
+            <option value="1">Visión Nocturna</option>
+            <option value="2">Térmico FLIR</option>
+            <option value="3">Original Sin Filtro</option>
+          </select>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-label">
+            <span>Confianza mínima IA:</span>
+            <strong id="valConf">32%</strong>
+          </div>
+          <input type="range" id="sldConf" min="18" max="75" value="32" />
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-label">
+            <span>Confirmación Arma (anti falsos positivos):</span>
+            <strong id="valHits">3 frames</strong>
+          </div>
+          <input type="range" id="sldHits" min="1" max="6" value="3" />
+        </div>
+
+        <button id="btnResetMetrics" class="btn btn-full">Limpiar Heatmap y Conteo</button>
+      </section>
+
+      <!-- 4. Registro Forense -->
+      <section class="card card-log">
+        <div class="card-head">
+          <h3>REGISTRO FORENSE</h3>
+          <span class="muted">Clic para ver foto</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th>Nivel</th>
+                <th>Evento</th>
+                <th>R%</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyLog"></tbody>
+          </table>
+        </div>
+        <div id="clipsList" class="clips-list"></div>
+      </section>
+    </aside>
+  </main>
+
+  <!-- Modal Visor de Evidencia -->
+  <div id="modalEvidencia" class="modal hidden">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="modalTitle">Evidencia Forense</h3>
+        <div class="modal-actions">
+          <a id="btnDownloadEv" class="btn btn-primary" download="evidencia.jpg">Descargar Foto</a>
+          <button id="btnCloseModal" class="btn">Cerrar</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <img id="modalImgFull" alt="Evidencia completa" />
+        <img id="modalImgCrop" alt="Recorte objetivo" class="crop-img hidden" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Video oculto para captura -->
+  <video id="videoSource" playsinline muted autoplay hidden></video>
+
+  <!-- Motores IA en navegador (WebGL/GPU) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.3/dist/pose-detection.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js"></script>
+
+  <!-- Módulos SENTINEL PRO -->
+  <script src="js/ai_engine.js"></script>
+  <script src="js/tracker.js"></script>
+  <script src="js/forensics.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
