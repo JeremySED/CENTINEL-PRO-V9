@@ -1,181 +1,2464 @@
+
+
+
+Icono de HTML
+index
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SENTINEL PRO WEB — Videovigilancia Táctica AI</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <title>SENTINEL PRO — Centro de Videovigilancia Táctica AI</title>
+  <style>
+    :root {
+      --bg-base: #06090f;
+      --bg-surface: #0b111b;
+      --bg-card: #101826;
+      --bg-elevated: #162133;
+      --border: #1e2d44;
+      --border-hi: #2e4568;
+      --text-main: #edf2f7;
+      --text-dim: #8b9bb4;
+      --cyan: #00e5ff;
+      --blue: #2563eb;
+      --blue-hi: #3b82f6;
+      --green: #10b981;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --radius: 10px;
+      --mono: "SF Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background:
+        radial-gradient(circle at 12% 0%, rgba(0, 229, 255, 0.07), transparent 36%),
+        radial-gradient(circle at 88% 100%, rgba(37, 99, 235, 0.08), transparent 40%),
+        var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--sans);
+      font-size: 13px;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scrollbar refinado */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #23334c; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #364f75; }
+
+    /* ================= TOP COMMAND BAR ================= */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      background: rgba(11, 17, 27, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 20;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.18), rgba(37, 99, 235, 0.25));
+      border: 1px solid rgba(0, 229, 255, 0.45);
+      display: grid;
+      place-items: center;
+      color: var(--cyan);
+      box-shadow: 0 0 14px rgba(0, 229, 255, 0.18);
+    }
+
+    .brand-title {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .brand-title h1 {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.9px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-title span.sub {
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .tag-soc {
+      font-size: 10px;
+      font-family: var(--mono);
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(0, 229, 255, 0.12);
+      color: var(--cyan);
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      font-weight: 700;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      appearance: none;
+      background: var(--bg-elevated);
+      color: var(--text-main);
+      border: 1px solid var(--border-hi);
+      border-radius: 7px;
+      padding: 7px 11px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .btn:hover:not(:disabled) {
+      background: #1e2d45;
+      border-color: var(--cyan);
+      transform: translateY(-1px);
+    }
+    .btn:active:not(:disabled) { transform: translateY(0); }
+    .btn:disabled { opacity: 0.42; cursor: not-allowed; }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #059669, #10b981);
+      border-color: #34d399;
+      color: #03150e;
+      font-weight: 700;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      border-color: #6ee7b7;
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      border-color: #60a5fa;
+      color: #ffffff;
+    }
+    .btn-accent:hover:not(:disabled) {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      border-color: #93c5fd;
+    }
+
+    .btn-dvr.recording {
+      background: linear-gradient(135deg, #b91c1c, #ef4444);
+      border-color: #fca5a5;
+      color: #fff;
+      box-shadow: 0 0 18px rgba(239, 68, 68, 0.45);
+      animation: pulse-rec 1.2s infinite;
+    }
+
+    @keyframes pulse-rec {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.72; }
+    }
+
+    .ai-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-family: var(--mono);
+      font-weight: 600;
+      background: rgba(16, 24, 38, 0.9);
+      border: 1px solid var(--border-hi);
+      color: var(--cyan);
+      margin-left: auto;
+    }
+
+    .ai-pill.ready {
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.45);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .ai-pill.warn {
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.45);
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    .spinner {
+      width: 11px;
+      height: 11px;
+      border: 2px solid rgba(0, 229, 255, 0.25);
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .ai-pill.ready .spinner {
+      animation: none;
+      border: none;
+      background: var(--green);
+      width: 8px;
+      height: 8px;
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ================= MAIN WORKSPACE ================= */
+    .workspace {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      gap: 10px;
+      padding: 10px;
+      min-height: 0;
+    }
+
+    /* STAGE IZQUIERDO */
+    .stage-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+    }
+
+    .canvas-wrap {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      background:
+        linear-gradient(rgba(0, 229, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.025) 1px, transparent 1px),
+        #05080d;
+      background-size: 32px 32px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.7);
+    }
+
+    #mainCanvas {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      display: block;
+      cursor: crosshair;
+    }
+
+    /* HUD flotante sobre el visor */
+    .stage-badge-top {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: rgba(6, 9, 15, 0.78);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(46, 69, 104, 0.7);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-main);
+      pointer-events: none;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #475569;
+    }
+    .live-dot.on {
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+    .live-dot.alert {
+      background: var(--red);
+      box-shadow: 0 0 10px var(--red);
+    }
+
+    .btn-fullscreen {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(6, 9, 15, 0.75);
+      border: 1px solid var(--border-hi);
+      color: var(--text-dim);
+      border-radius: 6px;
+      padding: 6px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all 0.15s ease;
+    }
+    .btn-fullscreen:hover { color: var(--cyan); border-color: var(--cyan); }
+
+    /* Pantalla de bienvenida táctica */
+    .overlay-welcome {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(11, 17, 27, 0.88), rgba(5, 8, 13, 0.96));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 5;
+    }
+    .overlay-welcome.hidden { display: none; }
+
+    .welcome-card {
+      max-width: 520px;
+      width: 100%;
+      background: rgba(16, 24, 38, 0.9);
+      border: 1px solid var(--border-hi);
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
+    }
+
+    .welcome-card .shield {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 14px;
+      border-radius: 12px;
+      background: rgba(0, 229, 255, 0.12);
+      border: 1px solid rgba(0, 229, 255, 0.4);
+      display: grid;
+      place-items: center;
+      color: var(--cyan);
+    }
+
+    .welcome-card h2 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: 0.4px;
+    }
+
+    .welcome-card p {
+      color: var(--text-dim);
+      line-height: 1.5;
+      margin-bottom: 18px;
+      font-size: 13px;
+    }
+
+    .welcome-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .welcome-actions .btn {
+      padding: 10px 16px;
+      font-size: 13px;
+    }
+
+    .welcome-meta {
+      font-size: 11px;
+      font-family: var(--mono);
+      color: #64748b;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stage-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .clock-pill {
+      font-family: var(--mono);
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    /* ================= SIDEBAR TÁCTICO ================= */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.9px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-title::before {
+      content: "";
+      width: 3px;
+      height: 11px;
+      border-radius: 2px;
+      background: var(--cyan);
+    }
+
+    /* Threat Meter */
+    .threat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .defcon-badge {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 6px;
+      letter-spacing: 0.6px;
+      border: 1px solid;
+    }
+    .defcon-badge.normal { color: #34d399; border-color: rgba(16, 185, 129, 0.45); background: rgba(16, 185, 129, 0.1); }
+    .defcon-badge.alerta { color: #fbbf24; border-color: rgba(245, 158, 11, 0.5); background: rgba(245, 158, 11, 0.12); }
+    .defcon-badge.critico { color: #f87171; border-color: rgba(239, 68, 68, 0.6); background: rgba(239, 68, 68, 0.16); }
+
+    .risk-bar-track {
+      position: relative;
+      flex: 1;
+      height: 22px;
+      background: #070b12;
+      border: 1px solid var(--border-hi);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .risk-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #059669, #10b981);
+      transition: width 0.18s ease, background 0.2s ease;
+    }
+
+    .risk-bar-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .kpi {
+      background: #090e17;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 6px 4px;
+      text-align: center;
+    }
+
+    .kpi .val {
+      display: block;
+      font-family: var(--mono);
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .kpi .val.danger { color: #f87171; }
+    .kpi .val.cyan { color: var(--cyan); }
+    .kpi .val.amber { color: #fbbf24; }
+    .kpi .lbl {
+      font-size: 9px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .telemetry-strip {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      padding-top: 6px;
+      border-top: 1px solid var(--border);
+    }
+    .telemetry-strip strong { color: var(--text-main); }
+
+    /* PiP */
+    #pipCanvas {
+      width: 100%;
+      height: 142px;
+      background: #05080d;
+      border: 1px solid var(--border-hi);
+      border-radius: 7px;
+      display: block;
+    }
+
+    .pip-status {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    /* Switches modernos */
+    .toggles-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 10px;
+      margin-bottom: 10px;
+    }
+
+    .toggle-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px;
+      border-radius: 6px;
+      background: #0a101a;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 11.5px;
+      user-select: none;
+    }
+    .toggle-item:hover { border-color: var(--border-hi); }
+
+    .toggle-item input {
+      appearance: none;
+      width: 28px;
+      height: 16px;
+      background: #1f2d44;
+      border-radius: 99px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      flex-shrink: 0;
+    }
+    .toggle-item input::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #94a3b8;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .toggle-item input:checked {
+      background: rgba(0, 229, 255, 0.3);
+      border: 1px solid var(--cyan);
+    }
+    .toggle-item input:checked::after {
+      transform: translateX(11px);
+      background: var(--cyan);
+    }
+
+    /* Modos ópticos (segmented pills) */
+    .seg-group {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      background: #080d15;
+      padding: 3px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      margin-bottom: 9px;
+    }
+    .seg-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 2px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .seg-btn:hover { color: var(--text-main); }
+    .seg-btn.active {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+    }
+
+    .slider-block { margin-bottom: 8px; }
+    .slider-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-bottom: 3px;
+    }
+    .slider-head strong { color: var(--cyan); font-family: var(--mono); }
+    input[type="range"] {
+      width: 100%;
+      height: 4px;
+      accent-color: var(--cyan);
+      cursor: pointer;
+    }
+
+    /* Bitácora Forense */
+    .card-log {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 170px;
+    }
+
+    .log-list {
+      flex: 1;
+      overflow-y: auto;
+      background: #070b12;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .log-empty {
+      color: #475569;
+      text-align: center;
+      padding: 24px 10px;
+      font-size: 11.5px;
+    }
+
+    .log-item {
+      display: grid;
+      grid-template-columns: 54px 1fr 34px;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      background: #0e1623;
+      border-left: 3px solid #475569;
+      font-size: 11px;
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
+    .log-item:hover { background: #162235; }
+    .log-item.CRITICO { border-left-color: var(--red); }
+    .log-item.ALERTA { border-left-color: var(--amber); }
+    .log-item.INFO { border-left-color: var(--cyan); cursor: default; }
+
+    .log-time { font-family: var(--mono); color: var(--text-dim); font-size: 10px; }
+    .log-ev { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .log-item.CRITICO .log-ev { color: #fca5a5; }
+    .log-item.ALERTA .log-ev { color: #fcd34d; }
+    .log-risk {
+      font-family: var(--mono);
+      font-size: 10px;
+      text-align: right;
+      color: var(--text-dim);
+      font-weight: 700;
+    }
+
+    .clips-shelf {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .clip-chip {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      color: var(--cyan);
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      padding: 3px 7px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    .clip-chip:hover { background: rgba(0, 229, 255, 0.18); }
+
+    /* Modal Forense */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 6, 12, 0.84);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+    .modal.hidden { display: none; }
+
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hi);
+      border-radius: 12px;
+      max-width: 960px;
+      width: 100%;
+      padding: 14px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.75);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-head h3 { font-size: 14px; color: var(--text-main); }
+    .modal-actions { display: flex; gap: 8px; }
+
+    .modal-body {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .modal-body img {
+      max-height: 68vh;
+      max-width: 68%;
+      border-radius: 8px;
+      border: 1px solid var(--border-hi);
+    }
+    .modal-body img.crop-img {
+      max-width: 28%;
+      border: 2px solid var(--red);
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 1080px) {
+      html, body { height: auto; overflow: auto; }
+      .workspace { grid-template-columns: 1fr; }
+      .canvas-wrap { min-height: 360px; }
+    }
+  </style>
 </head>
 <body>
+  <!-- BARRA SUPERIOR -->
   <header class="topbar">
     <div class="brand">
-      <span class="dot-live" id="dotLive"></span>
-      <h1>SENTINEL PRO <span class="badge">WEB AI</span></h1>
+      <div class="brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <circle cx="12" cy="11" r="3"/>
+        </svg>
+      </div>
+      <div class="brand-title">
+        <h1>SENTINEL PRO <span class="tag-soc">v9 WEB SOC</span></h1>
+        <span class="sub">Videovigilancia Táctica AI · Multiplataforma</span>
+      </div>
     </div>
 
     <div class="toolbar">
-      <button id="btnStartCam" class="btn btn-primary">Iniciar Cámara</button>
-      <button id="btnSwitchCam" class="btn btn-accent" disabled>Cambiar Cámara</button>
-      <label class="btn" for="inputVideo">Video CCTV (.mp4)</label>
+      <button id="btnStartCam" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        Iniciar Cámara
+      </button>
+      <button id="btnSwitchCam" class="btn btn-accent" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        <span id="txtSwitchCam">Cambiar Cámara</span>
+      </button>
+      <label class="btn" for="inputVideo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Video CCTV
+      </label>
       <input type="file" id="inputVideo" accept="video/*" hidden />
-      <label class="btn" for="inputOnnx" title="Opcional: carga un YOLO exportado a .onnx para armas de fuego/cascos">Modelo Armas (.onnx)</label>
+      <label class="btn" for="inputOnnx" title="Opcional: sube un modelo YOLO exportado a .onnx (armas/cascos)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Modelo .ONNX
+      </label>
       <input type="file" id="inputOnnx" accept=".onnx" hidden />
-      <button id="btnDvr" class="btn btn-dvr">● GRABAR DVR</button>
-      <button id="btnSnap" class="btn">Foto</button>
-      <button id="btnExportCsv" class="btn">Exportar CSV</button>
+      <button id="btnDvr" class="btn btn-dvr">
+        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg>
+        <span id="txtDvr">GRABAR DVR</span>
+      </button>
+      <button id="btnSnap" class="btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        Foto
+      </button>
+      <button id="btnExportCsv" class="btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        CSV
+      </button>
     </div>
 
-    <div class="ai-status" id="lblAiStatus">Cargando motores IA...</div>
+    <div class="ai-pill" id="aiPill">
+      <span class="spinner"></span>
+      <span id="lblAiStatus">Inicializando IA...</span>
+    </div>
   </header>
 
+  <!-- ÁREA DE TRABAJO -->
   <main class="workspace">
     <!-- VISOR PRINCIPAL -->
     <section class="stage-panel">
       <div class="canvas-wrap" id="canvasWrap">
         <canvas id="mainCanvas" width="1280" height="720"></canvas>
-        <div class="overlay-hint" id="overlayHint">
-          <h2>SENTINEL PRO — Listo en Navegador (Mac / Windows)</h2>
-          <p>Pulsa <strong>Iniciar Cámara</strong> para usar tu webcam (interna o USB) o <strong>Video CCTV (.mp4)</strong> para analizar una grabación.</p>
-          <p class="small">100% local en tu navegador (WebGL/GPU). Ningún video sale de tu equipo.</p>
+
+        <div class="stage-badge-top">
+          <span class="live-dot" id="liveDot"></span>
+          <span id="lblSourceBadge">STANDBY · SIN SEÑAL</span>
+        </div>
+
+        <button id="btnFullscreen" class="btn-fullscreen" title="Pantalla completa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+        </button>
+
+        <div class="overlay-welcome" id="overlayWelcome">
+          <div class="welcome-card">
+            <div class="shield">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="26" height="26">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <circle cx="12" cy="11" r="3"/>
+              </svg>
+            </div>
+            <h2>Consola SENTINEL PRO Lista</h2>
+            <p>
+              Detección en tiempo real con aceleración GPU directamente en el navegador
+              (macOS, Windows y Linux) sin instalar Python ni VS Code.
+            </p>
+            <div class="welcome-actions">
+              <button id="btnQuickCam" class="btn btn-primary">Activar Cámara en Vivo</button>
+              <label for="inputVideo" class="btn btn-accent">Analizar Video CCTV (.mp4)</label>
+            </div>
+            <div class="welcome-meta">
+              Procesamiento 100% local en tu equipo · Soporta cámaras USB externas y modelos .ONNX
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="stage-footer">
-        <span id="lblClock">--:--:--</span>
-        <span id="lblHintZone">Clic Izquierdo en video: trazar Zona Restringida (3+ pts) | Clic Derecho: resetear zona</span>
-        <span id="lblCameraInfo">Fuente: Inactiva</span>
+        <span class="clock-pill" id="lblClock">--:--:--</span>
+        <span>Clic Izquierdo: trazar Zona Restringida (3+ pts) · Clic Derecho: restaurar zona</span>
+        <span id="lblPerfFooter">0 FPS | IA: -- ms</span>
       </div>
     </section>
 
-    <!-- PANEL LATERAL TÁCTICO -->
+    <!-- PANEL LATERAL -->
     <aside class="sidebar">
-      <!-- 1. Estado y Telemetría -->
+      <!-- 1. Telemetría y Riesgo -->
       <section class="card">
-        <h3>ESTADO TÁCTICO Y TELEMETRÍA</h3>
-        <div class="risk-row">
-          <span id="lblDefcon" class="defcon normal">NORMAL</span>
-          <div class="progress-wrap">
-            <div id="barRisk" class="progress-fill" style="width: 0%"></div>
-            <span id="lblRiskPct">0%</span>
+        <div class="card-header">
+          <span class="card-title">Estado Táctico y Amenaza</span>
+          <span id="lblDefcon" class="defcon-badge normal">SEGURO</span>
+        </div>
+        <div class="threat-row">
+          <div class="risk-bar-track">
+            <div id="barRisk" class="risk-bar-fill"></div>
+            <span id="lblRiskPct" class="risk-bar-text">RIESGO 0%</span>
           </div>
         </div>
-        <div class="metrics-grid">
-          <div><span>UI / IA:</span> <strong id="lblPerf">0 FPS | 0 ms</strong></div>
-          <div><span>Personas:</span> <strong id="cntPersonas">0</strong></div>
-          <div><span>Autos:</span> <strong id="cntAutos">0</strong></div>
-          <div><span>Motos:</span> <strong id="cntMotos">0</strong></div>
-          <div><span>Armas Conf.:</span> <strong id="cntArmas" class="danger-txt">0</strong></div>
-          <div><span>En Zona:</span> <strong id="cntZona">0</strong></div>
-          <div><span>Flujo IN/OUT:</span> <strong id="cntFlujo">+0 / -0</strong></div>
-          <div><span>DVR Clips:</span> <strong id="cntClips">0</strong></div>
+        <div class="kpi-grid">
+          <div class="kpi"><span class="val cyan" id="cntPersonas">0</span><span class="lbl">Personas</span></div>
+          <div class="kpi"><span class="val amber" id="cntVehiculos">0</span><span class="lbl">Autos/Motos</span></div>
+          <div class="kpi"><span class="val danger" id="cntArmas">0</span><span class="lbl">Armas</span></div>
+          <div class="kpi"><span class="val" id="cntZona">0</span><span class="lbl">En Zona</span></div>
+        </div>
+        <div class="telemetry-strip">
+          <span>Flujo: <strong id="cntFlujo">+0 / -0</strong></span>
+          <span>Motos 2x: <strong id="cntMotos2x">0</strong></span>
+          <span>DVR: <strong id="cntClips">0</strong></span>
         </div>
       </section>
 
       <!-- 2. Zoom PiP -->
       <section class="card">
-        <div class="card-head">
-          <h3>ZOOM TÁCTICO (PiP)</h3>
-          <span id="lblPipTitle" class="muted">Sin objetivo</span>
+        <div class="card-header">
+          <span class="card-title">Zoom Táctico (PiP)</span>
+          <span id="lblPipTitle" class="pip-status">Sin objetivo</span>
         </div>
-        <canvas id="pipCanvas" width="320" height="160"></canvas>
+        <canvas id="pipCanvas" width="320" height="142"></canvas>
       </section>
 
-      <!-- 3. Controles y Calibración -->
+      <!-- 3. Controles -->
       <section class="card">
-        <h3>CONTROLES EN VIVO</h3>
-        <div class="checks-grid">
-          <label><input type="checkbox" id="chkIa" checked /> Motor IA</label>
-          <label><input type="checkbox" id="chkPose" checked /> Pose Biomecánica</label>
-          <label><input type="checkbox" id="chkEspejo" checked /> Espejo Cámara</label>
-          <label><input type="checkbox" id="chkZona" checked /> Zona Restringida</label>
-          <label><input type="checkbox" id="chkLinea" checked /> Línea Conteo</label>
-          <label><input type="checkbox" id="chkHeat" /> Heatmap</label>
-          <label><input type="checkbox" id="chkRadar" checked /> Radar 2D</label>
-          <label><input type="checkbox" id="chkSirena" checked /> Sirena Sonora</label>
+        <div class="card-header">
+          <span class="card-title">Controles y Calibración</span>
+          <button id="btnResetMetrics" class="btn" style="padding:3px 7px; font-size:10.5px;">Reset</button>
         </div>
 
-        <div class="select-row">
-          <label for="selOptico">Modo Óptico:</label>
-          <select id="selOptico">
-            <option value="0">Normal (Realce Color)</option>
-            <option value="1">Visión Nocturna</option>
-            <option value="2">Térmico FLIR</option>
-            <option value="3">Original Sin Filtro</option>
-          </select>
+        <div class="seg-group" id="opticoGroup">
+          <button class="seg-btn active" data-mode="0">Realce</button>
+          <button class="seg-btn" data-mode="1">Nocturno</button>
+          <button class="seg-btn" data-mode="2">FLIR</button>
+          <button class="seg-btn" data-mode="3">Original</button>
         </div>
 
-        <div class="slider-row">
-          <div class="slider-label">
-            <span>Confianza mínima IA:</span>
-            <strong id="valConf">32%</strong>
-          </div>
+        <div class="toggles-grid">
+          <label class="toggle-item"><span>Motor IA</span><input type="checkbox" id="chkIa" checked /></label>
+          <label class="toggle-item"><span>Pose 17pt</span><input type="checkbox" id="chkPose" checked /></label>
+          <label class="toggle-item"><span>Espejo</span><input type="checkbox" id="chkEspejo" checked /></label>
+          <label class="toggle-item"><span>Zona</span><input type="checkbox" id="chkZona" checked /></label>
+          <label class="toggle-item"><span>Conteo</span><input type="checkbox" id="chkLinea" checked /></label>
+          <label class="toggle-item"><span>Heatmap</span><input type="checkbox" id="chkHeat" /></label>
+          <label class="toggle-item"><span>Radar 2D</span><input type="checkbox" id="chkRadar" checked /></label>
+          <label class="toggle-item"><span>Sirena</span><input type="checkbox" id="chkSirena" checked /></label>
+        </div>
+
+        <div class="slider-block">
+          <div class="slider-head"><span>Confianza mínima IA</span><strong id="valConf">32%</strong></div>
           <input type="range" id="sldConf" min="18" max="75" value="32" />
         </div>
-
-        <div class="slider-row">
-          <div class="slider-label">
-            <span>Confirmación Arma (anti falsos positivos):</span>
-            <strong id="valHits">3 frames</strong>
-          </div>
+        <div class="slider-block" style="margin-bottom:0;">
+          <div class="slider-head"><span>Confirmación arma (frames)</span><strong id="valHits">3 frames</strong></div>
           <input type="range" id="sldHits" min="1" max="6" value="3" />
         </div>
-
-        <button id="btnResetMetrics" class="btn btn-full">Limpiar Heatmap y Conteo</button>
       </section>
 
       <!-- 4. Registro Forense -->
       <section class="card card-log">
-        <div class="card-head">
-          <h3>REGISTRO FORENSE</h3>
-          <span class="muted">Clic para ver foto</span>
+        <div class="card-header">
+          <span class="card-title">Registro Forense en Vivo</span>
+          <span class="pip-status">Clic en fila = Foto</span>
         </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Hora</th>
-                <th>Nivel</th>
-                <th>Evento</th>
-                <th>R%</th>
-              </tr>
-            </thead>
-            <tbody id="tbodyLog"></tbody>
-          </table>
+        <div class="log-list" id="logList">
+          <div class="log-empty" id="logEmpty">Sin eventos registrados todavía.</div>
         </div>
-        <div id="clipsList" class="clips-list"></div>
+        <div class="clips-shelf" id="clipsShelf"></div>
       </section>
     </aside>
   </main>
 
-  <!-- Modal Visor de Evidencia -->
+  <!-- MODAL EVIDENCIA -->
   <div id="modalEvidencia" class="modal hidden">
     <div class="modal-box">
       <div class="modal-head">
         <h3 id="modalTitle">Evidencia Forense</h3>
         <div class="modal-actions">
-          <a id="btnDownloadEv" class="btn btn-primary" download="evidencia.jpg">Descargar Foto</a>
+          <a id="btnDownloadEv" class="btn btn-primary" download="evidencia.jpg">Descargar JPG</a>
           <button id="btnCloseModal" class="btn">Cerrar</button>
         </div>
       </div>
       <div class="modal-body">
-        <img id="modalImgFull" alt="Evidencia completa" />
+        <img id="modalImgFull" alt="Captura completa" />
         <img id="modalImgCrop" alt="Recorte objetivo" class="crop-img hidden" />
       </div>
     </div>
   </div>
 
-  <!-- Video oculto para captura -->
   <video id="videoSource" playsinline muted autoplay hidden></video>
 
-  <!-- Motores IA en navegador (WebGL/GPU) -->
+  <!-- Librerías IA (carga no bloqueante con respaldo en JS) -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.3/dist/pose-detection.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js"></script>
 
-  <!-- Módulos SENTINEL PRO -->
-  <script src="js/ai_engine.js"></script>
-  <script src="js/tracker.js"></script>
-  <script src="js/forensics.js"></script>
-  <script src="js/app.js"></script>
+  <script>
+  (function () {
+    "use strict";
+
+    const UI_W = 1280;
+    const UI_H = 720;
+    const WORK_W = 640;
+    const WORK_H = 360;
+
+    const $ = (id) => document.getElementById(id);
+
+    // =========================================================================
+    // 1. UTILIDADES GEOMÉTRICAS Y BIOMECÁNICA ANTI-FALSOS POSITIVOS
+    // =========================================================================
+    function iouBoxes(b1, b2) {
+      const xA = Math.max(b1[0], b2[0]);
+      const yA = Math.max(b1[1], b2[1]);
+      const xB = Math.min(b1[2], b2[2]);
+      const yB = Math.min(b1[3], b2[3]);
+      const inter = Math.max(0, xB - xA) * Math.max(0, yB - yA);
+      if (inter <= 0) return 0;
+      const a1 = Math.max(1, (b1[2] - b1[0]) * (b1[3] - b1[1]));
+      const a2 = Math.max(1, (b2[2] - b2[0]) * (b2[3] - b2[1]));
+      return inter / (a1 + a2 - inter);
+    }
+
+    function boxesOverlap(b1, b2, margin = 12) {
+      return !(
+        b1[2] + margin < b2[0] ||
+        b1[0] - margin > b2[2] ||
+        b1[3] + margin < b2[1] ||
+        b1[1] - margin > b2[3]
+      );
+    }
+
+    function boxCenter(b) { return [(b[0] + b[2]) * 0.5, (b[1] + b[3]) * 0.5]; }
+    function boxFoot(b) { return [(b[0] + b[2]) * 0.5, b[3]]; }
+    function distPts(p1, p2) { return Math.hypot(p1[0] - p2[0], p1[1] - p2[1]); }
+
+    function pointNearBox(pt, box, margin = 44) {
+      return pt[0] >= box[0] - margin && pt[0] <= box[2] + margin &&
+             pt[1] >= box[1] - margin && pt[1] <= box[3] + margin;
+    }
+
+    function pointInPolygon(pt, poly) {
+      if (!poly || poly.length < 3) return false;
+      let inside = false;
+      const x = pt[0], y = pt[1];
+      for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+        const xi = poly[i][0], yi = poly[i][1];
+        const xj = poly[j][0], yj = poly[j][1];
+        const hit = (yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi + 1e-6) + xi;
+        if (hit) inside = !inside;
+      }
+      return inside;
+    }
+
+    /**
+     * Evalúa postura: bloquea falsas caídas si solo se ve cabeza o busto parcial.
+     */
+    function analyzePersonPose(kpts, box, frameH, poseEnabled) {
+      const res = { manosArriba: false, caidoInst: false, munecas: [], vistaParcial: false };
+      const pw = Math.max(1, box[2] - box[0]);
+      const ph = Math.max(1, box[3] - box[1]);
+      const tocaBordeInf = box[3] >= frameH - 18;
+      const tocaBordeSup = box[1] <= 12;
+
+      if (!kpts || kpts.length < 17) {
+        res.vistaParcial = tocaBordeInf || tocaBordeSup || ph < 80;
+        if (!poseEnabled && !res.vistaParcial) {
+          res.caidoInst = box[3] > frameH * 0.55 && (pw / ph) > 1.75;
+        }
+        return res;
+      }
+
+      const nariz = kpts[0];
+      const hIzq = kpts[5], hDer = kpts[6];
+      const mIzq = kpts[9], mDer = kpts[10];
+      const cIzq = kpts[11], cDer = kpts[12];
+
+      if (mIzq[2] > 0.35) res.munecas.push([mIzq[0], mIzq[1]]);
+      if (mDer[2] > 0.35) res.munecas.push([mDer[0], mDer[1]]);
+
+      // Manos arriba (asalto)
+      if (hIzq[2] > 0.35 && hDer[2] > 0.35 && mIzq[2] > 0.35 && mDer[2] > 0.35) {
+        let refY = Math.min(hIzq[1], hDer[1]);
+        if (nariz[2] > 0.35) refY = (refY + nariz[1]) * 0.5;
+        if (mIzq[1] < refY && mDer[1] < refY) res.manosArriba = true;
+      }
+
+      // Guardia de cuerpo completo para caída
+      const hombrosOk = hIzq[2] > 0.40 && hDer[2] > 0.40;
+      const caderasOk = cIzq[2] > 0.45 && cDer[2] > 0.45 && cIzq[1] < frameH - 16 && cDer[1] < frameH - 16;
+      const piernasOk = [13, 14, 15, 16].some((i) => kpts[i][2] > 0.40 && kpts[i][1] < frameH - 12);
+
+      if (!(hombrosOk && caderasOk && piernasOk)) {
+        res.vistaParcial = true;
+        return res;
+      }
+
+      const sx = (hIzq[0] + hDer[0]) * 0.5, sy = (hIzq[1] + hDer[1]) * 0.5;
+      const hx = (cIzq[0] + cDer[0]) * 0.5, hy = (cIzq[1] + cDer[1]) * 0.5;
+      const dx = Math.abs(hx - sx), dy = Math.abs(hy - sy);
+      if (Math.hypot(dx, dy) > 28) {
+        const angulo = (Math.atan2(dy, dx) * 180) / Math.PI;
+        if (angulo < 30 && pw > ph * 1.15) res.caidoInst = true;
+      }
+      return res;
+    }
+
+    function detectFights(personas) {
+      const set = new Set();
+      for (let i = 0; i < personas.length; i++) {
+        for (let j = i + 1; j < personas.length; j++) {
+          const p1 = personas[i], p2 = personas[j];
+          if (iouBoxes(p1.box, p2.box) > 0.18 && p1.vel + p2.vel > 350) {
+            set.add(p1.tid);
+            set.add(p2.tid);
+          }
+        }
+      }
+      return set;
+    }
+
+    // =========================================================================
+    // 2. MOTOR IA RESILIENTE (COCO-SSD + MOVENET EN PARALELO + ONNX LAZY)
+    // =========================================================================
+    function withTimeout(promise, ms, label) {
+      return Promise.race([
+        promise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout " + label)), ms))
+      ]);
+    }
+
+    function loadScriptOnce(url) {
+      return new Promise((resolve, reject) => {
+        const s = document.createElement("script");
+        s.src = url;
+        s.async = true;
+        s.onload = resolve;
+        s.onerror = () => reject(new Error("No se pudo cargar " + url));
+        document.head.appendChild(s);
+      });
+    }
+
+    class SentinelAIEngine {
+      constructor() {
+        this.objModel = null;
+        this.poseDetector = null;
+        this.onnxSession = null;
+        this.onnxInputName = "images";
+        this.onnxLabels = ["handgun", "knife", "pistol", "rifle", "shotgun", "machete", "helmet"];
+
+        this.ready = false;
+        this.busy = false;
+        this.backend = "CPU";
+        this.poseReady = false;
+        this.lastLatencyMs = 0;
+
+        this.workCanvas = document.createElement("canvas");
+        this.workCanvas.width = WORK_W;
+        this.workCanvas.height = WORK_H;
+        this.workCtx = this.workCanvas.getContext("2d", { willReadFrequently: true });
+
+        this.onnxCanvas = document.createElement("canvas");
+        this.onnxCanvas.width = 640;
+        this.onnxCanvas.height = 640;
+        this.onnxCtx = this.onnxCanvas.getContext("2d", { willReadFrequently: true });
+      }
+
+      async init(onStatus) {
+        const setSt = (txt, state = "loading") => onStatus && onStatus(txt, state);
+        try {
+          if (typeof tf === "undefined" || typeof cocoSsd === "undefined") {
+            throw new Error("CDN de TensorFlow.js bloqueado o sin internet");
+          }
+
+          setSt("Iniciando WebGL GPU...", "loading");
+          await tf.ready();
+          try { await tf.setBackend("webgl"); } catch (_) { await tf.setBackend("cpu"); }
+          this.backend = tf.getBackend().toUpperCase();
+
+          setSt(`Descargando detector (${this.backend})...`, "loading");
+          this.objModel = await withTimeout(
+            cocoSsd.load({ base: "lite_mobilenet_v2" }),
+            35000,
+            "COCO-SSD"
+          );
+
+          // Activar de inmediato sin esperar a MoveNet
+          this.ready = true;
+          setSt(`IA ACTIVA (${this.backend}) · Cargando Pose...`, "ready");
+
+          // Cargar MoveNet en segundo plano (si falla, no bloquea el sistema)
+          if (typeof poseDetection !== "undefined") {
+            try {
+              this.poseDetector = await withTimeout(
+                poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, {
+                  modelType: poseDetection.movenet.modelType.MULTIPOSE_LIGHTNING,
+                  enableTracking: true
+                }),
+                30000,
+                "MoveNet"
+              );
+              this.poseReady = true;
+              setSt(`LISTO · ${this.backend} + POSE`, "ready");
+            } catch (poseErr) {
+              console.warn("[POSE FALLBACK]", poseErr);
+              setSt(`LISTO · ${this.backend} (Sin Pose)`, "ready");
+            }
+          } else {
+            setSt(`LISTO · ${this.backend}`, "ready");
+          }
+        } catch (err) {
+          console.error("[AI INIT]", err);
+          setSt("Error IA: revisa internet / recarga", "warn");
+        }
+      }
+
+      async loadOnnxModel(arrayBuffer, fileName, onStatus) {
+        if (onStatus) onStatus(`Cargando ${fileName}...`, "loading");
+        if (typeof window.ort === "undefined") {
+          await loadScriptOnce("https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js");
+        }
+        const session = await window.ort.InferenceSession.create(arrayBuffer, {
+          executionProviders: ["wasm"]
+        });
+        this.onnxSession = session;
+        this.onnxInputName = session.inputNames[0] || "images";
+        if (onStatus) {
+          onStatus(`LISTO · ${this.backend}${this.poseReady ? "+POSE" : ""}+ONNX`, "ready");
+        }
+      }
+
+      _classify(rawName, conf, box, source) {
+        const bw = Math.max(1, box[2] - box[0]);
+        const bh = Math.max(1, box[3] - box[1]);
+        const areaRatio = (bw * bh) / (UI_W * UI_H);
+        if (areaRatio > 0.88) return null;
+
+        const n = String(rawName || "").toLowerCase().trim();
+        if (n === "person") return { grupo: "persona", label: "PERSONA", conf, box };
+        if (["handgun", "pistol", "revolver", "gun", "rifle", "shotgun", "weapon"].some((k) => n.includes(k))) {
+          if (areaRatio > 0.35 || conf < 0.28) return null;
+          return { grupo: "arma_fuego", label: `ARMA FUEGO`, conf, box };
+        }
+        if (["knife", "machete", "scissors", "blade"].some((k) => n.includes(k))) {
+          if (areaRatio > 0.26 || conf < 0.28) return null;
+          return { grupo: "arma_blanca", label: `ARMA BLANCA (${n.toUpperCase()})`, conf, box };
+        }
+        if (["baseball bat", "crowbar", "bat"].some((k) => n.includes(k))) {
+          if (areaRatio > 0.35 || conf < 0.32) return null;
+          return { grupo: "arma_contundente", label: "OBJ. CONTUNDENTE", conf, box };
+        }
+        if (["helmet", "hard hat"].some((k) => n.includes(k))) {
+          return { grupo: "casco", label: "CASCO", conf, box };
+        }
+        if (["car", "truck", "bus"].includes(n)) {
+          return { grupo: "vehiculo", label: n === "car" ? "AUTO" : "PESADO", conf, box };
+        }
+        if (["motorcycle", "bicycle"].includes(n)) {
+          return { grupo: "moto", label: n === "motorcycle" ? "MOTO" : "BICICLETA", conf, box };
+        }
+        if (["backpack", "suitcase", "handbag"].includes(n)) {
+          return { grupo: "bulto", label: "BULTO", conf, box };
+        }
+        if (source === "onnx" && conf >= 0.35) {
+          return { grupo: "arma_fuego", label: `ARMA (${n.toUpperCase()})`, conf, box };
+        }
+        return null;
+      }
+
+      async _runOnnxYolo(minConf) {
+        if (!this.onnxSession || typeof window.ort === "undefined") return [];
+        const size = 640;
+        const octx = this.onnxCtx;
+        octx.fillStyle = "#000";
+        octx.fillRect(0, 0, size, size);
+
+        const scale = Math.min(size / WORK_W, size / WORK_H);
+        const nw = Math.round(WORK_W * scale);
+        const nh = Math.round(WORK_H * scale);
+        const padX = Math.floor((size - nw) / 2);
+        const padY = Math.floor((size - nh) / 2);
+        octx.drawImage(this.workCanvas, 0, 0, WORK_W, WORK_H, padX, padY, nw, nh);
+
+        const imgData = octx.getImageData(0, 0, size, size).data;
+        const area = size * size;
+        const f32 = new Float32Array(3 * area);
+        for (let i = 0; i < area; i++) {
+          const j = i * 4;
+          f32[i] = imgData[j] / 255;
+          f32[area + i] = imgData[j + 1] / 255;
+          f32[2 * area + i] = imgData[j + 2] / 255;
+        }
+
+        const tensor = new window.ort.Tensor("float32", f32, [1, 3, size, size]);
+        const outputs = await this.onnxSession.run({ [this.onnxInputName]: tensor });
+        const out = outputs[this.onnxSession.outputNames[0]];
+        const data = out.data;
+        const dims = out.dims;
+        if (!dims || dims.length !== 3) return [];
+
+        const channelsFirst = dims[1] < dims[2];
+        const numAttrs = channelsFirst ? dims[1] : dims[2];
+        const numAnchors = channelsFirst ? dims[2] : dims[1];
+        const numClasses = Math.max(1, numAttrs - 4);
+        const at = (a, c) => (channelsFirst ? data[c * numAnchors + a] : data[a * numAttrs + c]);
+
+        const sx = UI_W / WORK_W;
+        const sy = UI_H / WORK_H;
+        const cands = [];
+
+        for (let a = 0; a < numAnchors; a++) {
+          let bestCls = 0, bestConf = 0;
+          for (let c = 0; c < numClasses; c++) {
+            const sc = at(a, 4 + c);
+            if (sc > bestConf) { bestConf = sc; bestCls = c; }
+          }
+          if (bestConf < minConf) continue;
+
+          const cx = at(a, 0), cy = at(a, 1), bw = at(a, 2), bh = at(a, 3);
+          const x1 = Math.max(0, Math.round(((cx - bw / 2 - padX) / scale) * sx));
+          const y1 = Math.max(0, Math.round(((cy - bh / 2 - padY) / scale) * sy));
+          const x2 = Math.min(UI_W, Math.round(((cx + bw / 2 - padX) / scale) * sx));
+          const y2 = Math.min(UI_H, Math.round(((cy + bh / 2 - padY) / scale) * sy));
+          if (x2 - x1 < 8 || y2 - y1 < 8) continue;
+
+          cands.push({ cls: this.onnxLabels[bestCls] || `weapon_${bestCls}`, conf: bestConf, box: [x1, y1, x2, y2] });
+        }
+
+        cands.sort((a, b) => b.conf - a.conf);
+        const kept = [];
+        for (const c of cands) {
+          if (!kept.some((k) => iouBoxes(k.box, c.box) > 0.45)) {
+            kept.push(c);
+            if (kept.length >= 15) break;
+          }
+        }
+        return kept.map((k) => this._classify(k.cls, k.conf, k.box, "onnx")).filter(Boolean);
+      }
+
+      async infer(videoEl, mirror, minConf, poseEnabled) {
+        if (!this.ready || this.busy) return null;
+        this.busy = true;
+        const t0 = performance.now();
+
+        try {
+          const wctx = this.workCtx;
+          wctx.save();
+          if (mirror) { wctx.translate(WORK_W, 0); wctx.scale(-1, 1); }
+          wctx.drawImage(videoEl, 0, 0, WORK_W, WORK_H);
+          wctx.restore();
+
+          const sx = UI_W / WORK_W;
+          const sy = UI_H / WORK_H;
+          const dets = [];
+
+          const preds = await this.objModel.detect(this.workCanvas, 20, minConf);
+          for (const p of preds) {
+            const [x, y, bw, bh] = p.bbox;
+            const box = [
+              Math.max(0, Math.round(x * sx)),
+              Math.max(0, Math.round(y * sy)),
+              Math.min(UI_W, Math.round((x + bw) * sx)),
+              Math.min(UI_H, Math.round((y + bh) * sy))
+            ];
+            const item = this._classify(p.class, p.score, box, "coco");
+            if (item) dets.push(item);
+          }
+
+          if (this.onnxSession) {
+            const extra = await this._runOnnxYolo(Math.max(0.25, minConf));
+            for (const d of extra) dets.push(d);
+          }
+
+          const poses = [];
+          if (poseEnabled && this.poseDetector) {
+            const rawPoses = await this.poseDetector.estimatePoses(this.workCanvas);
+            for (const rp of rawPoses) {
+              if (!rp.keypoints || rp.keypoints.length < 17) continue;
+              const kpts = rp.keypoints.map((k) => [k.x * sx, k.y * sy, k.score || 0]);
+              let x1 = UI_W, y1 = UI_H, x2 = 0, y2 = 0, valid = 0;
+              for (const [kx, ky, ks] of kpts) {
+                if (ks > 0.30) {
+                  x1 = Math.min(x1, kx); y1 = Math.min(y1, ky);
+                  x2 = Math.max(x2, kx); y2 = Math.max(y2, ky);
+                  valid++;
+                }
+              }
+              if (valid >= 4) {
+                poses.push({
+                  box: [Math.max(0, x1 - 16), Math.max(0, y1 - 24), Math.min(UI_W, x2 + 16), Math.min(UI_H, y2 + 18)],
+                  kpts
+                });
+              }
+            }
+          }
+
+          this.lastLatencyMs = performance.now() - t0;
+          return { dets, poses };
+        } catch (err) {
+          console.warn("[INFER WARN]", err);
+          return null;
+        } finally {
+          this.busy = false;
+        }
+      }
+    }
+
+    // =========================================================================
+    // 3. TRACKER MULTI-OBJETO SINCRONIZADO A ÉPOCA DE IA
+    // =========================================================================
+    class TacticalTracker {
+      constructor() {
+        this.tracks = new Map();
+        this.nextId = 1;
+        this.entradas = 0;
+        this.salidas = 0;
+      }
+
+      reset() {
+        this.tracks.clear();
+        this.entradas = 0;
+        this.salidas = 0;
+      }
+
+      interpolate(dt) {
+        const f = Math.min(1, dt * 13);
+        for (const tr of this.tracks.values()) {
+          for (let i = 0; i < 4; i++) tr.box[i] += (tr.targetBox[i] - tr.box[i]) * f;
+        }
+      }
+
+      updateEpoch(dets, poses, nowSec, lineaY) {
+        const updated = new Set();
+        const usedDets = new Set();
+        const pairs = [];
+
+        for (const [tid, tr] of this.tracks.entries()) {
+          dets.forEach((det, dIdx) => {
+            if (tr.grupo !== det.grupo) return;
+            const iou = iouBoxes(tr.targetBox, det.box);
+            const dist = distPts(boxCenter(tr.targetBox), boxCenter(det.box));
+            if (iou >= 0.14 || dist <= 135) {
+              pairs.push({ score: iou * 2.5 - dist / 220, tid, dIdx });
+            }
+          });
+        }
+        pairs.sort((a, b) => b.score - a.score);
+
+        for (const p of pairs) {
+          if (updated.has(p.tid) || usedDets.has(p.dIdx)) continue;
+          updated.add(p.tid);
+          usedDets.add(p.dIdx);
+
+          const tr = this.tracks.get(p.tid);
+          const det = dets[p.dIdx];
+          const dt = Math.max(0.03, nowSec - tr.lastSeen);
+          const cNuevo = boxCenter(det.box);
+          const velInst = distPts(cNuevo, tr.prevCenter) / dt;
+
+          if (lineaY !== null && ["persona", "vehiculo", "moto"].includes(tr.grupo)) {
+            const ladoAct = cNuevo[1] >= lineaY ? 1 : -1;
+            if (tr.ladoLinea !== 0 && ladoAct !== tr.ladoLinea && nowSec - tr.ultimoCruce > 1.5) {
+              if (tr.ladoLinea === -1 && ladoAct === 1) this.entradas++;
+              else this.salidas++;
+              tr.ultimoCruce = nowSec;
+            }
+            tr.ladoLinea = ladoAct;
+          }
+
+          tr.targetBox = [...det.box];
+          tr.vel = 0.65 * tr.vel + 0.35 * velInst;
+          tr.prevCenter = cNuevo;
+          tr.conf = 0.6 * tr.conf + 0.4 * det.conf;
+          tr.label = det.label;
+          tr.lastSeen = nowSec;
+          tr.hits += 1;
+          tr.missed = 0;
+          tr.historial.push(cNuevo);
+          if (tr.historial.length > 26) tr.historial.shift();
+        }
+
+        dets.forEach((det, dIdx) => {
+          if (usedDets.has(dIdx)) return;
+          const c = boxCenter(det.box);
+          this.tracks.set(this.nextId, {
+            tid: this.nextId,
+            grupo: det.grupo,
+            label: det.label,
+            conf: det.conf,
+            box: [...det.box],
+            targetBox: [...det.box],
+            prevCenter: c,
+            firstSeen: nowSec,
+            lastSeen: nowSec,
+            hits: 1,
+            missed: 0,
+            vel: 0,
+            tiempoZona: 0,
+            tiempoSinDueno: 0,
+            tiempoManosArriba: 0,
+            tiempoCaido: 0,
+            ultimoCruce: 0,
+            ladoLinea: lineaY !== null ? (c[1] >= lineaY ? 1 : -1) : 0,
+            riesgo: 0,
+            poseKpts: null,
+            historial: [c]
+          });
+          this.nextId++;
+        });
+
+        for (const [tid, tr] of this.tracks.entries()) {
+          if (!updated.has(tid)) tr.missed += 1;
+          if (nowSec - tr.lastSeen > 1.4) this.tracks.delete(tid);
+        }
+
+        for (const tr of this.tracks.values()) {
+          if (tr.grupo !== "persona") continue;
+          let bestIou = 0.25, bestKpts = null;
+          for (const p of poses) {
+            const v = iouBoxes(tr.targetBox, p.box);
+            if (v > bestIou) { bestIou = v; bestKpts = p.kpts; }
+          }
+          if (bestKpts) tr.poseKpts = bestKpts;
+          else if (tr.missed > 2) tr.poseKpts = null;
+        }
+      }
+
+      getActive() {
+        const out = [];
+        for (const tr of this.tracks.values()) {
+          if (tr.hits >= 2 || ["arma_fuego", "arma_blanca", "arma_contundente"].includes(tr.grupo)) {
+            out.push(tr);
+          }
+        }
+        return out;
+      }
+    }
+
+    // =========================================================================
+    // 4. GESTOR FORENSE (WEB AUDIO + DVR MEDIARECORDER + FOTOS + CSV)
+    // =========================================================================
+    class ForensicsManager {
+      constructor(hooks) {
+        this.hooks = hooks;
+        this.events = [];
+        this.cooldowns = new Map();
+        this.soundEnabled = true;
+        this.lastBeep = 0;
+        this.audioCtx = null;
+
+        this.recording = false;
+        this.manualDvr = false;
+        this.autoStopAt = 0;
+        this.recStartAt = 0;
+        this.recorder = null;
+        this.chunks = [];
+        this.clipCount = 0;
+      }
+
+      _siren() {
+        if (!this.soundEnabled) return;
+        const now = performance.now();
+        if (now - this.lastBeep < 1600) return;
+        this.lastBeep = now;
+        try {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          if (!this.audioCtx) this.audioCtx = new AC();
+          if (this.audioCtx.state === "suspended") this.audioCtx.resume();
+          const osc = this.audioCtx.createOscillator();
+          const gain = this.audioCtx.createGain();
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(1700, this.audioCtx.currentTime);
+          osc.frequency.setValueAtTime(1250, this.audioCtx.currentTime + 0.14);
+          gain.gain.setValueAtTime(0.08, this.audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.30);
+          osc.connect(gain);
+          gain.connect(this.audioCtx.destination);
+          osc.start();
+          osc.stop(this.audioCtx.currentTime + 0.31);
+        } catch (_) {}
+      }
+
+      _crop(canvas, box) {
+        if (!box) return "";
+        const pad = 22;
+        const x1 = Math.max(0, Math.floor(box[0] - pad));
+        const y1 = Math.max(0, Math.floor(box[1] - pad));
+        const cw = Math.min(canvas.width, Math.ceil(box[2] + pad)) - x1;
+        const ch = Math.min(canvas.height, Math.ceil(box[3] + pad)) - y1;
+        if (cw < 16 || ch < 16) return "";
+        const tmp = document.createElement("canvas");
+        tmp.width = cw;
+        tmp.height = ch;
+        tmp.getContext("2d").drawImage(canvas, x1, y1, cw, ch, 0, 0, cw, ch);
+        return tmp.toDataURL("image/jpeg", 0.88);
+      }
+
+      log(nivel, evento, detalles, canvas, cropBox, riesgo = 0, cooldownSec = 5.0) {
+        const now = performance.now() / 1000;
+        const key = `${nivel}:${evento}`;
+        if (now - (this.cooldowns.get(key) || 0) < cooldownSec) return;
+        this.cooldowns.set(key, now);
+
+        const d = new Date();
+        const hora = d.toTimeString().slice(0, 8);
+        const fecha = d.toISOString().replace("T", " ").slice(0, 19);
+
+        let fullUrl = "", cropUrl = "";
+        if (canvas && (nivel === "CRITICO" || nivel === "ALERTA")) {
+          fullUrl = canvas.toDataURL("image/jpeg", 0.84);
+          cropUrl = this._crop(canvas, cropBox);
+        }
+
+        const rec = { fecha, hora, nivel, evento, detalles, riesgo, fullUrl, cropUrl };
+        this.events.unshift(rec);
+        if (this.events.length > 150) this.events.pop();
+
+        this.hooks.onEvent(rec);
+        if (nivel === "CRITICO") this._siren();
+      }
+
+      startDvr(canvas, manual = true) {
+        if (this.recording || typeof MediaRecorder === "undefined" || !canvas.captureStream) return;
+        try {
+          const stream = canvas.captureStream(20);
+          const mime = ["video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/webm", "video/mp4"]
+            .find((m) => MediaRecorder.isTypeSupported(m)) || "";
+          this.chunks = [];
+          this.recorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+          this.recorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) this.chunks.push(e.data); };
+          this.recorder.onstop = () => {
+            if (!this.chunks.length) return;
+            const blob = new Blob(this.chunks, { type: mime || "video/webm" });
+            const url = URL.createObjectURL(blob);
+            const ext = (mime || "").includes("mp4") ? "mp4" : "webm";
+            this.clipCount++;
+            const name = `dvr_${new Date().toTimeString().slice(0, 8).replace(/:/g, "")}.${ext}`;
+            this.hooks.onClip(name, url, this.clipCount);
+            this.log("INFO", "DVR GUARDADO", name, null, null, 0, 0.5);
+          };
+          this.recorder.start(500);
+          this.recording = true;
+          this.manualDvr = manual;
+          this.recStartAt = performance.now() / 1000;
+          this.autoStopAt = manual ? 0 : this.recStartAt + 10.0;
+          this.hooks.onDvr(true, "00:00");
+          this.log("INFO", "DVR INICIADO", manual ? "Manual" : "Auto-Alerta", null, null, 0, 0.5);
+        } catch (err) {
+          console.warn("[DVR WARN]", err);
+        }
+      }
+
+      stopDvr() {
+        if (!this.recording) return;
+        this.recording = false;
+        this.manualDvr = false;
+        this.autoStopAt = 0;
+        if (this.recorder && this.recorder.state !== "inactive") this.recorder.stop();
+        this.hooks.onDvr(false, "");
+      }
+
+      tickDvr(canvas, criticalAlert) {
+        const now = performance.now() / 1000;
+        if (criticalAlert) {
+          this.autoStopAt = Math.max(this.autoStopAt, now + 10.0);
+          if (!this.recording) this.startDvr(canvas, false);
+        }
+        if (this.recording) {
+          const sec = Math.max(0, Math.floor(now - this.recStartAt));
+          const mm = String(Math.floor(sec / 60)).padStart(2, "0");
+          const ss = String(sec % 60).padStart(2, "0");
+          this.hooks.onDvr(true, `${mm}:${ss}`);
+          if (!this.manualDvr && this.autoStopAt > 0 && now > this.autoStopAt) this.stopDvr();
+        }
+      }
+
+      exportCsv() {
+        const rows = [["FechaHora", "Nivel", "Evento", "Detalles", "Riesgo"]];
+        for (const e of this.events) rows.push([e.fecha, e.nivel, e.evento, e.detalles, e.riesgo]);
+        const csv = rows.map((r) => r.map((v) => `"${String(v ?? "").replace(/"/g, '""')}"`).join(",")).join("\n");
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
+        a.download = `sentinel_forense_${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+      }
+    }
+
+    // =========================================================================
+    // 5. APLICACIÓN PRINCIPAL (CÁMARAS + RENDERIZADO + EVENTOS UI)
+    // =========================================================================
+    const videoEl = $("videoSource");
+    const mainCanvas = $("mainCanvas");
+    const ctx = mainCanvas.getContext("2d");
+    const pipCanvas = $("pipCanvas");
+    const pipCtx = pipCanvas.getContext("2d");
+
+    const POSE_LINKS = [
+      [5, 6], [5, 7], [7, 9], [6, 8], [8, 10],
+      [5, 11], [6, 12], [11, 12], [11, 13], [13, 15], [12, 14], [14, 16]
+    ];
+
+    const hmCanvas = document.createElement("canvas");
+    hmCanvas.width = UI_W / 4;
+    hmCanvas.height = UI_H / 4;
+    const hmCtx = hmCanvas.getContext("2d");
+
+    const flirCanvas = document.createElement("canvas");
+    flirCanvas.width = 320;
+    flirCanvas.height = 180;
+    const flirCtx = flirCanvas.getContext("2d", { willReadFrequently: true });
+
+    const FLIR_LUT = new Uint8ClampedArray(256 * 3);
+    for (let i = 0; i < 256; i++) {
+      const t = i / 255;
+      FLIR_LUT[i * 3] = Math.min(255, Math.round(255 * Math.pow(t, 0.55)));
+      FLIR_LUT[i * 3 + 1] = Math.min(255, Math.round(255 * Math.pow(Math.max(0, t - 0.28) / 0.72, 1.35)));
+      FLIR_LUT[i * 3 + 2] = Math.min(255, Math.round(255 * Math.sin(t * Math.PI) * 0.65));
+    }
+
+    const ai = new SentinelAIEngine();
+    const tracker = new TacticalTracker();
+    const forensics = new ForensicsManager({
+      onEvent: addLogItem,
+      onDvr: (rec, timerTxt) => {
+        $("btnDvr").classList.toggle("recording", rec);
+        $("txtDvr").textContent = rec ? `REC ${timerTxt}` : "GRABAR DVR";
+      },
+      onClip: (name, url, count) => {
+        $("cntClips").textContent = String(count);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = name;
+        a.className = "clip-chip";
+        a.textContent = `↓ ${name}`;
+        $("clipsShelf").prepend(a);
+      }
+    });
+
+    let currentStream = null;
+    let videoDevices = [];
+    let currentCamIdx = 0;
+    let sourceMode = "idle";
+    let videoUrl = null;
+    let opticalMode = 0;
+
+    const ZONA_DEF = [[400, 170], [880, 170], [960, 610], [320, 610]];
+    let zonaPts = ZONA_DEF.map((p) => [...p]);
+    let clicksZona = [];
+
+    let lastTs = performance.now();
+    let fpsHist = [];
+    let radarAngle = 0;
+    let lastFocoBox = null;
+    let lastRisk = 0;
+
+    function updateAiBadge(text, state) {
+      $("lblAiStatus").textContent = text;
+      const pill = $("aiPill");
+      pill.classList.remove("ready", "warn");
+      if (state === "ready") pill.classList.add("ready");
+      if (state === "warn") pill.classList.add("warn");
+    }
+
+    function stopSource() {
+      if (currentStream) {
+        currentStream.getTracks().forEach((t) => t.stop());
+        currentStream = null;
+      }
+      if (videoUrl) {
+        URL.revokeObjectURL(videoUrl);
+        videoUrl = null;
+      }
+      videoEl.srcObject = null;
+      videoEl.removeAttribute("src");
+    }
+
+    async function refreshCameras() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) return [];
+      const devs = await navigator.mediaDevices.enumerateDevices();
+      videoDevices = devs.filter((d) => d.kind === "videoinput");
+      $("btnSwitchCam").disabled = videoDevices.length < 1;
+      $("txtSwitchCam").textContent = videoDevices.length > 1
+        ? `Cambiar (${currentCamIdx + 1}/${videoDevices.length})`
+        : "Cambiar Cámara";
+      return videoDevices;
+    }
+
+    async function startWebcam(deviceId = null) {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("El navegador bloquea la cámara. Abre esta página desde HTTPS (GitHub Pages) o localhost.");
+        return;
+      }
+      stopSource();
+      tracker.reset();
+
+      const constraints = {
+        audio: false,
+        video: deviceId
+          ? { deviceId: { exact: deviceId }, width: { ideal: 1280 }, height: { ideal: 720 } }
+          : { width: { ideal: 1280 }, height: { ideal: 720 } }
+      };
+
+      try {
+        currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+      } catch (_) {
+        currentStream = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: deviceId ? { deviceId: { exact: deviceId } } : true
+        });
+      }
+
+      videoEl.srcObject = currentStream;
+      videoEl.loop = false;
+      await videoEl.play();
+      sourceMode = "webcam";
+
+      const track = currentStream.getVideoTracks()[0];
+      const activeId = track.getSettings().deviceId;
+      await refreshCameras();
+      const idx = videoDevices.findIndex((d) => d.deviceId === activeId);
+      if (idx >= 0) currentCamIdx = idx;
+
+      $("chkEspejo").checked = currentCamIdx === 0;
+      $("txtSwitchCam").textContent = videoDevices.length > 1
+        ? `Cambiar (${currentCamIdx + 1}/${videoDevices.length})`
+        : "Cambiar Cámara";
+
+      const label = (track.label || `Cámara ${currentCamIdx + 1}`).slice(0, 32);
+      $("lblSourceBadge").textContent = `EN VIVO · ${label} (${videoEl.videoWidth}x${videoEl.videoHeight})`;
+      $("liveDot").classList.add("on");
+      $("overlayWelcome").classList.add("hidden");
+      forensics.log("INFO", "CAMARA ACTIVA", label, null, null, 0, 1);
+    }
+
+    async function switchCamera() {
+      await refreshCameras();
+      if (videoDevices.length <= 1) {
+        await startWebcam(videoDevices[0] ? videoDevices[0].deviceId : null);
+        return;
+      }
+      currentCamIdx = (currentCamIdx + 1) % videoDevices.length;
+      await startWebcam(videoDevices[currentCamIdx].deviceId);
+    }
+
+    async function loadVideoFile(file) {
+      stopSource();
+      tracker.reset();
+      videoUrl = URL.createObjectURL(file);
+      videoEl.src = videoUrl;
+      videoEl.loop = true;
+      await videoEl.play();
+      sourceMode = "file";
+      $("chkEspejo").checked = false;
+      $("lblSourceBadge").textContent = `CCTV · ${file.name.slice(0, 34)}`;
+      $("liveDot").classList.add("on");
+      $("overlayWelcome").classList.add("hidden");
+      forensics.log("INFO", "VIDEO CARGADO", file.name.slice(0, 24), null, null, 0, 1);
+    }
+
+    function drawBaseVideo() {
+      const mirror = sourceMode === "webcam" && $("chkEspejo").checked;
+
+      if (opticalMode === 2) {
+        flirCtx.save();
+        if (mirror) { flirCtx.translate(flirCanvas.width, 0); flirCtx.scale(-1, 1); }
+        flirCtx.drawImage(videoEl, 0, 0, flirCanvas.width, flirCanvas.height);
+        flirCtx.restore();
+        const img = flirCtx.getImageData(0, 0, flirCanvas.width, flirCanvas.height);
+        const px = img.data;
+        for (let i = 0; i < px.length; i += 4) {
+          const g = Math.min(255, Math.round(0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2]));
+          px[i] = FLIR_LUT[g * 3];
+          px[i + 1] = FLIR_LUT[g * 3 + 1];
+          px[i + 2] = FLIR_LUT[g * 3 + 2];
+        }
+        flirCtx.putImageData(img, 0, 0);
+        ctx.drawImage(flirCanvas, 0, 0, UI_W, UI_H);
+        return;
+      }
+
+      ctx.save();
+      if (opticalMode === 0) ctx.filter = "contrast(1.14) saturate(1.22) brightness(1.03)";
+      else if (opticalMode === 1) ctx.filter = "grayscale(1) contrast(1.35) brightness(1.12)";
+      else ctx.filter = "none";
+
+      if (mirror) { ctx.translate(UI_W, 0); ctx.scale(-1, 1); }
+      ctx.drawImage(videoEl, 0, 0, UI_W, UI_H);
+      ctx.restore();
+
+      if (opticalMode === 1) {
+        ctx.save();
+        ctx.globalCompositeOperation = "multiply";
+        ctx.fillStyle = "rgb(45, 255, 110)";
+        ctx.fillRect(0, 0, UI_W, UI_H);
+        ctx.restore();
+      }
+    }
+
+    function drawBox(box, color, title, subtitle = "", history = null) {
+      const [x1, y1, x2, y2] = box.map(Math.round);
+      const w = Math.max(1, x2 - x1), h = Math.max(1, y2 - y1);
+      const esq = Math.max(10, Math.round(Math.min(w, h) * 0.2));
+
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.2;
+      ctx.strokeRect(x1, y1, w, h);
+
+      ctx.lineWidth = 3;
+      for (const [px, py, dx, dy] of [[x1, y1, 1, 1], [x2, y1, -1, 1], [x1, y2, 1, -1], [x2, y2, -1, -1]]) {
+        ctx.beginPath();
+        ctx.moveTo(px + dx * esq, py);
+        ctx.lineTo(px, py);
+        ctx.lineTo(px, py + dy * esq);
+        ctx.stroke();
+      }
+
+      if (history && history.length > 1) {
+        ctx.beginPath();
+        ctx.lineWidth = 2;
+        ctx.moveTo(history[0][0], history[0][1]);
+        for (let i = 1; i < history.length; i++) ctx.lineTo(history[i][0], history[i][1]);
+        ctx.stroke();
+      }
+
+      ctx.font = "bold 13px 'Segoe UI', Arial, sans-serif";
+      const tw = ctx.measureText(title).width;
+      const ty = Math.max(24, y1 - 6);
+      ctx.fillStyle = "rgba(7, 11, 18, 0.86)";
+      ctx.fillRect(x1, ty - 18, tw + 12, 22);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x1, ty - 18, tw + 12, 22);
+      ctx.fillStyle = color;
+      ctx.fillText(title, x1 + 6, ty - 3);
+
+      if (subtitle) {
+        ctx.font = "11.5px 'Segoe UI', Arial, sans-serif";
+        const sw = ctx.measureText(subtitle).width;
+        ctx.fillStyle = "rgba(7, 11, 18, 0.80)";
+        ctx.fillRect(x1, y2 + 2, sw + 10, 18);
+        ctx.fillStyle = "#e2e8f0";
+        ctx.fillText(subtitle, x1 + 5, y2 + 15);
+      }
+    }
+
+    function drawPose(kpts, color) {
+      if (!kpts) return;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+      for (const [i, j] of POSE_LINKS) {
+        if (kpts[i][2] > 0.35 && kpts[j][2] > 0.35) {
+          ctx.beginPath();
+          ctx.moveTo(kpts[i][0], kpts[i][1]);
+          ctx.lineTo(kpts[j][0], kpts[j][1]);
+          ctx.stroke();
+        }
+      }
+      ctx.fillStyle = "#ffffff";
+      for (const idx of [0, 5, 6, 7, 8, 9, 10, 11, 12]) {
+        if (kpts[idx][2] > 0.35) {
+          ctx.beginPath();
+          ctx.arc(kpts[idx][0], kpts[idx][1], 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    function drawRadar(tracks) {
+      const r = 60, cx = UI_W - r - 18, cy = UI_H - r - 18;
+      ctx.fillStyle = "rgba(8, 13, 21, 0.82)";
+      ctx.fillRect(cx - r - 8, cy - r - 22, r * 2 + 16, r * 2 + 30);
+      ctx.strokeStyle = "rgba(0, 229, 255, 0.25)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(cx - r - 8, cy - r - 22, r * 2 + 16, r * 2 + 30);
+
+      ctx.fillStyle = "#00e5ff";
+      ctx.font = "bold 10.5px monospace";
+      ctx.fillText("RADAR 2D", cx - 26, cy - r - 8);
+
+      ctx.strokeStyle = "rgba(16, 185, 129, 0.45)";
+      for (const rad of [r, r * 0.66, r * 0.33]) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, rad, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.moveTo(cx - r, cy); ctx.lineTo(cx + r, cy);
+      ctx.moveTo(cx, cy - r); ctx.lineTo(cx, cy + r);
+      ctx.stroke();
+
+      const ang = (radarAngle * Math.PI) / 180;
+      ctx.strokeStyle = "#10b981";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + r * Math.cos(ang), cy + r * Math.sin(ang));
+      ctx.stroke();
+
+      for (const tr of tracks) {
+        const c = boxCenter(tr.box);
+        const tx = cx + (c[0] / UI_W - 0.5) * 2 * (r - 6);
+        const ty = cy + (c[1] / UI_H - 0.5) * 2 * (r - 6);
+        ctx.fillStyle = tr.riesgo >= 70 ? "#ef4444" : tr.riesgo >= 35 ? "#f59e0b" : "#00e5ff";
+        ctx.beginPath();
+        ctx.arc(tx, ty, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function updatePip(box, title, risk) {
+      if (!box) {
+        $("lblPipTitle").textContent = "Sin objetivo";
+        $("lblPipTitle").style.color = "#8b9bb4";
+        return;
+      }
+      const cx = (box[0] + box[2]) * 0.5;
+      const cy = (box[1] + box[3]) * 0.5;
+      const hw = Math.max(70, (box[2] - box[0]) * 0.72);
+      const hh = Math.max(70, (box[3] - box[1]) * 0.72);
+      const rx1 = Math.max(0, cx - hw);
+      const ry1 = Math.max(0, cy - hh);
+      const rw = Math.min(UI_W - rx1, hw * 2);
+      const rh = Math.min(UI_H - ry1, hh * 2);
+      if (rw < 20 || rh < 20) return;
+
+      pipCtx.drawImage(mainCanvas, rx1, ry1, rw, rh, 0, 0, pipCanvas.width, pipCanvas.height);
+      const col = risk >= 70 ? "#ef4444" : "#00e5ff";
+      pipCtx.strokeStyle = col;
+      pipCtx.lineWidth = 1.2;
+      pipCtx.beginPath();
+      pipCtx.moveTo(142, 71); pipCtx.lineTo(178, 71);
+      pipCtx.moveTo(160, 53); pipCtx.lineTo(160, 89);
+      pipCtx.stroke();
+      pipCtx.beginPath();
+      pipCtx.arc(160, 71, 22, 0, Math.PI * 2);
+      pipCtx.stroke();
+
+      $("lblPipTitle").textContent = `[${risk}%] ${title}`;
+      $("lblPipTitle").style.color = risk >= 70 ? "#f87171" : "#00e5ff";
+    }
+
+    function addLogItem(rec) {
+      const empty = $("logEmpty");
+      if (empty) empty.remove();
+
+      const el = document.createElement("div");
+      el.className = `log-item ${rec.nivel}`;
+      el.innerHTML =
+        `<span class="log-time">${rec.hora}</span>` +
+        `<span class="log-ev" title="${rec.evento} ${rec.detalles}">${rec.evento} ${rec.detalles}</span>` +
+        `<span class="log-risk">${rec.riesgo > 0 ? rec.riesgo + "%" : "—"}</span>`;
+
+      if (rec.fullUrl) {
+        el.addEventListener("click", () => {
+          $("modalTitle").textContent = `${rec.fecha} — ${rec.evento} (${rec.riesgo}%)`;
+          $("modalImgFull").src = rec.fullUrl;
+          $("btnDownloadEv").href = rec.fullUrl;
+          $("btnDownloadEv").download = `ev_${rec.evento.replace(/\W+/g, "_")}.jpg`;
+          if (rec.cropUrl) {
+            $("modalImgCrop").src = rec.cropUrl;
+            $("modalImgCrop").classList.remove("hidden");
+          } else {
+            $("modalImgCrop").classList.add("hidden");
+          }
+          $("modalEvidencia").classList.remove("hidden");
+        });
+      }
+
+      const list = $("logList");
+      list.prepend(el);
+      while (list.children.length > 100) list.removeChild(list.lastChild);
+    }
+
+    // ---- BUCLE PRINCIPAL DE RENDERIZADO ----
+    function loop(nowMs) {
+      requestAnimationFrame(loop);
+
+      const dt = Math.max(0.001, Math.min(0.1, (nowMs - lastTs) / 1000));
+      lastTs = nowMs;
+      fpsHist.push(dt);
+      if (fpsHist.length > 35) fpsHist.shift();
+      const fpsUi = fpsHist.length / fpsHist.reduce((a, b) => a + b, 0);
+      radarAngle = (radarAngle + 180 * dt) % 360;
+      $("lblClock").textContent = new Date().toLocaleTimeString();
+
+      if (sourceMode === "idle" || videoEl.readyState < 2) return;
+
+      const nowSec = nowMs / 1000;
+      const lineaY = Math.round(UI_H * 0.65);
+
+      if ($("chkIa").checked && ai.ready && !ai.busy) {
+        const mirror = sourceMode === "webcam" && $("chkEspejo").checked;
+        ai.infer(videoEl, mirror, Number($("sldConf").value) / 100, $("chkPose").checked)
+          .then((res) => {
+            if (!res) return;
+            tracker.updateEpoch(res.dets, res.poses, performance.now() / 1000, $("chkLinea").checked ? lineaY : null);
+          });
+      }
+
+      tracker.interpolate(dt);
+      const tracks = $("chkIa").checked ? tracker.getActive() : [];
+
+      drawBaseVideo();
+
+      const personas = tracks.filter((t) => t.grupo === "persona");
+      const armas = tracks.filter((t) => ["arma_fuego", "arma_blanca", "arma_contundente"].includes(t.grupo));
+      const minHits = Number($("sldHits").value);
+      const isArmOk = (a) => a.hits >= minHits || (a.hits >= 2 && a.conf >= 0.66);
+      const armasOk = armas.filter(isArmOk);
+      const cascos = tracks.filter((t) => t.grupo === "casco");
+      const vehiculos = tracks.filter((t) => t.grupo === "vehiculo");
+      const motos = tracks.filter((t) => t.grupo === "moto");
+      const bultos = tracks.filter((t) => t.grupo === "bulto");
+
+      // Heatmap
+      hmCtx.fillStyle = "rgba(0,0,0,0.03)";
+      hmCtx.fillRect(0, 0, hmCanvas.width, hmCanvas.height);
+      for (const tr of [...personas, ...vehiculos, ...motos]) {
+        const c = boxCenter(tr.box);
+        const g = hmCtx.createRadialGradient(c[0] / 4, c[1] / 4, 1, c[0] / 4, c[1] / 4, 12);
+        g.addColorStop(0, "rgba(255, 65, 0, 0.38)");
+        g.addColorStop(1, "rgba(255, 190, 0, 0)");
+        hmCtx.fillStyle = g;
+        hmCtx.beginPath();
+        hmCtx.arc(c[0] / 4, c[1] / 4, 12, 0, Math.PI * 2);
+        hmCtx.fill();
+      }
+      if ($("chkHeat").checked) {
+        ctx.save();
+        ctx.globalAlpha = 0.55;
+        ctx.globalCompositeOperation = "screen";
+        ctx.drawImage(hmCanvas, 0, 0, UI_W, UI_H);
+        ctx.restore();
+      }
+
+      // Zona Restringida
+      let intrusosZona = 0;
+      if ($("chkZona").checked && zonaPts.length >= 3) {
+        ctx.beginPath();
+        ctx.moveTo(zonaPts[0][0], zonaPts[0][1]);
+        for (let i = 1; i < zonaPts.length; i++) ctx.lineTo(zonaPts[i][0], zonaPts[i][1]);
+        ctx.closePath();
+        ctx.fillStyle = "rgba(245, 158, 11, 0.08)";
+        ctx.fill();
+        ctx.strokeStyle = "#f59e0b";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = "#fbbf24";
+        ctx.font = "bold 12px 'Segoe UI', Arial";
+        ctx.fillText("ZONA RESTRINGIDA", zonaPts[0][0] + 6, Math.max(22, zonaPts[0][1] - 8));
+      }
+
+      // Línea Conteo
+      if ($("chkLinea").checked) {
+        ctx.strokeStyle = "#00e5ff";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(40, lineaY);
+        ctx.lineTo(UI_W - 40, lineaY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = "#00e5ff";
+        ctx.font = "bold 12.5px monospace";
+        ctx.fillText(`LINEA CONTEO | IN: ${tracker.entradas} | OUT: ${tracker.salidas}`, 48, lineaY - 8);
+      }
+
+      let riesgoGlobal = 0;
+      let alertaCritica = false;
+      let focoBox = null, focoTit = "", focoRiesgo = -1;
+
+      const setFocus = (box, tit, r) => {
+        riesgoGlobal = Math.max(riesgoGlobal, r);
+        if (r > focoRiesgo) { focoBox = box; focoTit = tit; focoRiesgo = r; }
+      };
+
+      // Bultos abandonados
+      for (const b of bultos) {
+        const c = boxCenter(b.box);
+        const near = personas.some((p) => distPts(c, boxCenter(p.box)) < 175);
+        if (near || b.vel >= 25) b.tiempoSinDueno = Math.max(0, b.tiempoSinDueno - dt * 2);
+        else b.tiempoSinDueno += dt;
+
+        if (b.tiempoSinDueno >= 7.0) {
+          b.riesgo = 85; alertaCritica = true;
+          setFocus(b.box, "BULTO ABANDONADO", 85);
+          drawBox(b.box, "#ef4444", `ID#${b.tid} ABANDONADO (${b.tiempoSinDueno.toFixed(0)}s)`, "SOSPECHOSO");
+          forensics.log("CRITICO", "OBJETO ABANDONADO", `ID#${b.tid}`, mainCanvas, b.box, 85);
+        } else {
+          b.riesgo = 10;
+          drawBox(b.box, "#eab308", `ID#${b.tid} ${b.label}`);
+        }
+      }
+
+      // Motos y vehículos
+      let motos2x = 0;
+      for (const m of motos) {
+        const ocupantes = personas.filter((p) => boxesOverlap(p.box, m.box, 20));
+        if (ocupantes.length >= 2) {
+          motos2x++;
+          m.riesgo = 60;
+          setFocus(m.box, "MOTO 2 OCUPANTES", 60);
+          drawBox(m.box, "#f97316", `ID#${m.tid} ALERTA: 2 EN MOTO`, `Vel:${m.vel.toFixed(0)}px/s`, m.historial);
+          forensics.log("ALERTA", "MOTO 2 OCUPANTES", `ID#${m.tid}`, mainCanvas, m.box, 60, 8);
+        } else {
+          m.riesgo = 15;
+          drawBox(m.box, "#fb923c", `ID#${m.tid} ${m.label} (${Math.round(m.conf * 100)}%)`, `Vel:${m.vel.toFixed(0)}px/s`, m.historial);
+        }
+      }
+      for (const v of vehiculos) {
+        v.riesgo = 10;
+        drawBox(v.box, "#facc15", `ID#${v.tid} ${v.label} (${Math.round(v.conf * 100)}%)`, `Vel:${v.vel.toFixed(0)}px/s`, v.historial);
+      }
+      for (const c of cascos) {
+        drawBox(c.box, "#10b981", `CASCO (${Math.round(c.conf * 100)}%)`);
+      }
+
+      // Personas + Biomecánica
+      const fights = detectFights(personas);
+      const poseOn = $("chkPose").checked && ai.poseReady;
+      for (const p of personas) {
+        const bio = analyzePersonPose(p.poseKpts, p.box, UI_H, poseOn);
+
+        if (bio.manosArriba) p.tiempoManosArriba += dt;
+        else p.tiempoManosArriba = Math.max(0, p.tiempoManosArriba - dt * 2);
+
+        if (bio.caidoInst && p.vel < 120) p.tiempoCaido += dt;
+        else p.tiempoCaido = Math.max(0, p.tiempoCaido - dt * 2.5);
+
+        const asalto = p.tiempoManosArriba >= 1.1;
+        const caido = p.tiempoCaido >= 1.5;
+        const armado = armasOk.some(
+          (a) => (bio.munecas.length && bio.munecas.some((m) => pointNearBox(m, a.box, 44))) || boxesOverlap(p.box, a.box, 8)
+        );
+        const pelea = fights.has(p.tid);
+        const corriendo = p.vel > 310;
+        const tEscena = nowSec - p.firstSeen;
+
+        let enZona = false;
+        if ($("chkZona").checked && zonaPts.length >= 3) {
+          enZona = pointInPolygon(boxFoot(p.box), zonaPts);
+          if (enZona) { intrusosZona++; p.tiempoZona += dt; }
+        }
+        const merodeo = p.tiempoZona >= 10.0;
+        const suf = bio.vistaParcial ? " · PARCIAL" : "";
+
+        let col = "#00e5ff", tit = `ID#${p.tid} PERSONA (${Math.round(p.conf * 100)}%)`, sub = `T:${tEscena.toFixed(0)}s${suf}`, riesgo = 15;
+
+        if (armado) {
+          riesgo = 100; alertaCritica = true; col = "#ef4444";
+          tit = `ID#${p.tid} SUJETO ARMADO`; sub = "AMENAZA LETAL";
+          forensics.log("CRITICO", "SUJETO ARMADO", `ID#${p.tid}`, mainCanvas, p.box, 100);
+        } else if (asalto) {
+          riesgo = 92; alertaCritica = true; col = "#ef4444";
+          tit = `ID#${p.tid} POSIBLE ASALTO`; sub = "MANOS ARRIBA";
+          forensics.log("CRITICO", "POSIBLE ASALTO", `ID#${p.tid}`, mainCanvas, p.box, 92);
+        } else if (pelea) {
+          riesgo = 78; alertaCritica = true; col = "#f43f5e";
+          tit = `ID#${p.tid} FORCEJEO / PELEA`; sub = `Vel:${p.vel.toFixed(0)}`;
+          forensics.log("CRITICO", "FORCEJEO / PELEA", `ID#${p.tid}`, mainCanvas, p.box, 78, 6);
+        } else if (caido) {
+          riesgo = 75; alertaCritica = true; col = "#f97316";
+          tit = `ID#${p.tid} PERSONA CAIDA (${p.tiempoCaido.toFixed(1)}s)`; sub = "EMERGENCIA";
+          forensics.log("ALERTA", "PERSONA CAIDA", `ID#${p.tid}`, mainCanvas, p.box, 75);
+        } else if (merodeo) {
+          riesgo = 65; col = "#f59e0b";
+          tit = `ID#${p.tid} MERODEO (${p.tiempoZona.toFixed(0)}s)`; sub = "SOSPECHOSO";
+          forensics.log("ALERTA", "MERODEO", `ID#${p.tid}`, mainCanvas, p.box, 65, 10);
+        } else if (enZona) {
+          riesgo = 50; col = "#fbbf24";
+          tit = `ID#${p.tid} INTRUSO (${p.tiempoZona.toFixed(1)}s)`; sub = "PERIMETRO";
+          forensics.log("ALERTA", "INTRUSION ZONA", `ID#${p.tid}`, mainCanvas, p.box, 50, 8);
+        } else if (corriendo) {
+          riesgo = 35; col = "#fde047";
+          tit = `ID#${p.tid} CARRERA / HUIDA`; sub = `Vel:${p.vel.toFixed(0)}px/s`;
+        }
+
+        p.riesgo = riesgo;
+        setFocus(p.box, tit.split(" ").slice(1).join(" "), riesgo);
+        if ($("chkPose").checked && p.poseKpts) drawPose(p.poseKpts, col);
+        drawBox(p.box, col, tit, sub, p.historial);
+      }
+
+      // Armas con confirmación temporal
+      for (const a of armas) {
+        if (isArmOk(a)) {
+          a.riesgo = 100; alertaCritica = true;
+          setFocus(a.box, a.label, 100);
+          drawBox(a.box, "#ef4444", `! ${a.label} (${Math.round(a.conf * 100)}%) !`, "CONFIRMADO", a.historial);
+          forensics.log("CRITICO", a.label, `${Math.round(a.conf * 100)}%`, mainCanvas, a.box, 100);
+        } else {
+          a.riesgo = 45;
+          drawBox(a.box, "#fde047", `VERIFICANDO: ${a.label} (${a.hits}/${minHits})`);
+        }
+      }
+
+      // Alerta visual crítica
+      if (alertaCritica && Math.floor(nowSec * 8) % 2 === 0) {
+        ctx.strokeStyle = "#ef4444";
+        ctx.lineWidth = 8;
+        ctx.strokeRect(4, 4, UI_W - 8, UI_H - 8);
+        ctx.fillStyle = "rgba(185, 28, 28, 0.90)";
+        ctx.fillRect(UI_W / 2 - 220, 14, 440, 40);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 19px 'Segoe UI', Arial";
+        ctx.fillText("! ALERTA CRITICA DE SEGURIDAD !", UI_W / 2 - 172, 40);
+      }
+
+      if ($("chkRadar").checked) drawRadar(tracks);
+
+      lastFocoBox = focoBox;
+      lastRisk = riesgoGlobal;
+      forensics.tickDvr(mainCanvas, alertaCritica);
+      updatePip(focoBox, focoTit, focoRiesgo);
+
+      // Telemetría DOM
+      $("lblPerfFooter").textContent = `${Math.round(fpsUi)} FPS | IA: ${Math.round(ai.lastLatencyMs)} ms`;
+      $("cntPersonas").textContent = String(personas.length);
+      $("cntVehiculos").textContent = String(vehiculos.length + motos.length);
+      $("cntArmas").textContent = String(armasOk.length);
+      $("cntZona").textContent = String(intrusosZona);
+      $("cntFlujo").textContent = `+${tracker.entradas} / -${tracker.salidas}`;
+      $("cntMotos2x").textContent = String(motos2x);
+
+      $("barRisk").style.width = `${riesgoGlobal}%`;
+      $("lblRiskPct").textContent = `RIESGO ${riesgoGlobal}%`;
+
+      const def = $("lblDefcon");
+      const dot = $("liveDot");
+      if (riesgoGlobal >= 75) {
+        def.textContent = "CRÍTICO";
+        def.className = "defcon-badge critico";
+        $("barRisk").style.background = "linear-gradient(90deg, #dc2626, #ef4444)";
+        dot.classList.add("alert");
+      } else if (riesgoGlobal >= 40) {
+        def.textContent = "ALERTA";
+        def.className = "defcon-badge alerta";
+        $("barRisk").style.background = "linear-gradient(90deg, #d97706, #f59e0b)";
+        dot.classList.remove("alert");
+      } else {
+        def.textContent = "SEGURO";
+        def.className = "defcon-badge normal";
+        $("barRisk").style.background = "linear-gradient(90deg, #059669, #10b981)";
+        dot.classList.remove("alert");
+      }
+    }
+
+    // ---- EVENTOS ----
+    const triggerCam = () => startWebcam(null).catch((e) => alert("No se pudo abrir la cámara: " + e.message));
+    $("btnStartCam").addEventListener("click", triggerCam);
+    $("btnQuickCam").addEventListener("click", triggerCam);
+    $("btnSwitchCam").addEventListener("click", () => switchCamera().catch((e) => alert("Error cambiando cámara: " + e.message)));
+
+    $("inputVideo").addEventListener("change", (e) => {
+      const f = e.target.files[0];
+      if (f) loadVideoFile(f);
+    });
+
+    $("inputOnnx").addEventListener("change", async (e) => {
+      const f = e.target.files[0];
+      if (!f) return;
+      try {
+        await ai.loadOnnxModel(await f.arrayBuffer(), f.name, updateAiBadge);
+      } catch (err) {
+        alert("Error cargando ONNX: " + err.message);
+        updateAiBadge("Error modelo ONNX", "warn");
+      }
+    });
+
+    $("btnDvr").addEventListener("click", () => {
+      if (forensics.recording) forensics.stopDvr();
+      else forensics.startDvr(mainCanvas, true);
+    });
+
+    $("btnSnap").addEventListener("click", () => {
+      if (sourceMode === "idle") return;
+      forensics.log("ALERTA", "CAPTURA MANUAL", "Operador", mainCanvas, lastFocoBox, lastRisk, 0.2);
+    });
+
+    $("btnExportCsv").addEventListener("click", () => forensics.exportCsv());
+
+    $("btnResetMetrics").addEventListener("click", () => {
+      hmCtx.clearRect(0, 0, hmCanvas.width, hmCanvas.height);
+      tracker.entradas = 0;
+      tracker.salidas = 0;
+    });
+
+    $("btnFullscreen").addEventListener("click", () => {
+      const wrap = $("canvasWrap");
+      if (!document.fullscreenElement) wrap.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    });
+
+    $("opticoGroup").addEventListener("click", (e) => {
+      const btn = e.target.closest(".seg-btn");
+      if (!btn) return;
+      opticalMode = Number(btn.dataset.mode);
+      $("opticoGroup").querySelectorAll(".seg-btn").forEach((b) => b.classList.toggle("active", b === btn));
+    });
+
+    $("chkSirena").addEventListener("change", () => { forensics.soundEnabled = $("chkSirena").checked; });
+    $("sldConf").addEventListener("input", () => { $("valConf").textContent = `${$("sldConf").value}%`; });
+    $("sldHits").addEventListener("input", () => { $("valHits").textContent = `${$("sldHits").value} frames`; });
+
+    $("btnCloseModal").addEventListener("click", () => $("modalEvidencia").classList.add("hidden"));
+    $("modalEvidencia").addEventListener("click", (e) => {
+      if (e.target === $("modalEvidencia")) $("modalEvidencia").classList.add("hidden");
+    });
+
+    mainCanvas.addEventListener("click", (e) => {
+      const rect = mainCanvas.getBoundingClientRect();
+      const x = Math.round(((e.clientX - rect.left) / rect.width) * UI_W);
+      const y = Math.round(((e.clientY - rect.top) / rect.height) * UI_H);
+      clicksZona.push([x, y]);
+      if (clicksZona.length >= 3) zonaPts = clicksZona.map((p) => [...p]);
+    });
+
+    mainCanvas.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      clicksZona = [];
+      zonaPts = ZONA_DEF.map((p) => [...p]);
+    });
+
+    // Arranque inmediato
+    ai.init(updateAiBadge);
+    requestAnimationFrame(loop);
+  })();
+  </script>
 </body>
 </html>
+Optimizing multi-model startup and tactical surveillance interface aesthetics
